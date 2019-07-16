@@ -32,6 +32,11 @@ RUN echo "umask 002" >> /etc/apache2/envvars
 # PHP config.
 COPY ./files/php.ini /etc/php/7.0/mods-available/ua.ini
 
+# THINKPHP5
+RUN mkdir -p /web/app
+COPY ./thinkphp_5.0.24_with_extend.zip /web/app/
+RUN unzip /web/app/thinkphp_5.0.24_with_extend.zip
+
 # Add smtp support
 RUN echo "sendmail_path = /usr/sbin/ssmtp -t" > /etc/php/7.0/mods-available/sendmail.ini \
 && echo "mailhub=mail:25\nUseTLS=NO\nFromLineOverride=YES" > /etc/ssmtp/ssmtp.conf
