@@ -18,8 +18,7 @@ RUN apt-get update \
 && apt-get -y install locales \
 && locale-gen en_AU.UTF-8 \
 && apt-get -y dist-upgrade \
-&& apt-get -y vim \
-&& apt-get -y install apache2 php7.0-common libapache2-mod-php7.0 php-apcu php7.0-curl php7.0-gd php7.0-ldap php7.0-mysql php7.0-opcache php7.0-mbstring php7.0-bcmath php7.0-xml php7.0-zip php7.0-soap libedit-dev ssmtp \
+&& apt-get -y install vim unzip apache2 php7.0-common libapache2-mod-php7.0 php-apcu php7.0-curl php7.0-gd php7.0-ldap php7.0-mysql php7.0-opcache php7.0-mbstring php7.0-bcmath php7.0-xml php7.0-zip php7.0-soap libedit-dev ssmtp \
 && apt-get -y autoremove && apt-get -y autoclean && apt-get clean && rm -rf /var/lib/apt/lists /tmp/* /var/tmp/*
 
 # Apache config.
@@ -34,8 +33,9 @@ COPY ./files/php.ini /etc/php/7.0/mods-available/ua.ini
 
 # THINKPHP5
 RUN mkdir -p /web/app
-COPY ./thinkphp_5.0.24_with_extend.zip /web/app/
-RUN unzip /web/app/thinkphp_5.0.24_with_extend.zip
+COPY ./thinkphp.zip /web/app/
+RUN unzip -q -u /web/app/thinkphp.zip
+#RUN rm -rf /web/app/thinkphp_5.0.24_with_extend.zip
 
 # Add smtp support
 RUN echo "sendmail_path = /usr/sbin/ssmtp -t" > /etc/php/7.0/mods-available/sendmail.ini \
